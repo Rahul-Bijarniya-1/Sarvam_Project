@@ -15,7 +15,7 @@ class LLMManager:
         self.conversation_state = ConversationState()
         self.prompt_templates = PromptTemplates()
     
-    def process_message(self, user_message: str) -> str:
+    def process_message(self, user_message: str, customer_name: str) -> str:
         """Process user message with memory context."""
         # Check for stale context
         if self.conversation_state.is_context_stale():
@@ -29,7 +29,8 @@ class LLMManager:
         context_summary = self.conversation_state.summarize_context()
         memory_prompt = self.prompt_templates.build_memory_prompt(
             message=user_message,
-            conversation_state=self.conversation_state
+            conversation_state=self.conversation_state,
+            customer_name=customer_name
         )
         
         # Prepare messages for LLM
